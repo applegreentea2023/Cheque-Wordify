@@ -1,0 +1,5 @@
+{
+  "name": "Cheque Wordify",
+  "description": "Professional cheque amount to words converter with auto-copy functionality.",
+  "requestFramePermissions": []
+}
