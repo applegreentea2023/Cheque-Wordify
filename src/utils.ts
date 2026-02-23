@@ -60,12 +60,24 @@ export function numberToWords(num: number): string {
 
   result = result.trim();
 
+  result = result.trim();
+
+  if (result === "Zero") {
+    result = "Zero Dollars";
+  } else {
+    result += " Dollars";
+  }
+
   if (decimalPart) {
     // If it's a single digit like .5, treat as 50
     if (decimalPart.length === 1) decimalPart += "0";
     const cents = parseInt(decimalPart);
     if (cents > 0) {
-      result += " and " + convertChunk(cents) + " Cents";
+      if (result === "Zero Dollars") {
+        result = convertChunk(cents) + " Cents";
+      } else {
+        result += " and " + convertChunk(cents) + " Cents";
+      }
     }
   }
 
