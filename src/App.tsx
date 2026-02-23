@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Copy, Check, Hash, Type, RotateCcw, CreditCard } from 'lucide-react';
+import { Copy, Check, DollarSign, Type, RotateCcw, CreditCard } from 'lucide-react';
 import { numberToWords } from './utils';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -27,7 +27,7 @@ export default function App() {
       setWords('');
       return;
     }
-    
+
     setError(null);
     const result = numberToWords(num);
     setWords(result);
@@ -68,7 +68,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#F5F5F4] text-[#1C1917] font-sans selection:bg-emerald-100 selection:text-emerald-900">
       <div className="max-w-2xl mx-auto px-6 py-12 md:py-24">
-        <motion.header 
+        <motion.header
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-12 text-center"
@@ -94,7 +94,7 @@ export default function App() {
               </label>
               <div className="relative group">
                 <div className="absolute left-5 top-1/2 -translate-y-1/2 text-stone-400 group-focus-within:text-emerald-500 transition-colors">
-                  <Hash className="w-5 h-5" />
+                  <DollarSign className="w-5 h-5" />
                 </div>
                 <input
                   id="amount"
@@ -113,7 +113,7 @@ export default function App() {
               {error && (
                 <p className="text-sm text-red-500 font-medium ml-1">{error}</p>
               )}
-              
+
               <div className="flex gap-3 pt-2">
                 <button
                   onClick={handleConvert}
@@ -146,7 +146,7 @@ export default function App() {
                 className="space-y-4"
               >
                 {/* Normal Words */}
-                <div 
+                <div
                   onClick={() => copyToClipboard(words, 'normal')}
                   className="group relative bg-white rounded-2xl p-6 border border-stone-200 cursor-pointer hover:border-emerald-200 hover:shadow-md transition-all active:scale-[0.99]"
                 >
@@ -158,7 +158,7 @@ export default function App() {
                   </div>
                   <p className="text-lg font-medium leading-relaxed pr-8">{words}</p>
                   {copiedType === 'normal' && (
-                    <motion.span 
+                    <motion.span
                       initial={{ opacity: 0, x: 10 }}
                       animate={{ opacity: 1, x: 0 }}
                       className="absolute bottom-4 right-6 text-xs font-bold text-emerald-600"
@@ -169,7 +169,7 @@ export default function App() {
                 </div>
 
                 {/* All Caps Words */}
-                <div 
+                <div
                   onClick={() => copyToClipboard(words.toUpperCase(), 'caps')}
                   className="group relative bg-stone-900 rounded-2xl p-6 border border-stone-800 cursor-pointer hover:shadow-xl hover:shadow-stone-900/20 transition-all active:scale-[0.99]"
                 >
@@ -183,7 +183,7 @@ export default function App() {
                     {words.toUpperCase()}
                   </p>
                   {copiedType === 'caps' && (
-                    <motion.span 
+                    <motion.span
                       initial={{ opacity: 0, x: 10 }}
                       animate={{ opacity: 1, x: 0 }}
                       className="absolute bottom-4 right-6 text-xs font-bold text-emerald-400"
@@ -197,7 +197,7 @@ export default function App() {
           </AnimatePresence>
         </motion.main>
 
-        <motion.footer 
+        <motion.footer
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
