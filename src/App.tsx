@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Copy, Check, DollarSign, Type, RotateCcw, CreditCard } from 'lucide-react';
-import { numberToWords } from './utils';
+import { numberToWords, numberToChineseWords } from './utils';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -12,7 +12,8 @@ function cn(...inputs: ClassValue[]) {
 export default function App() {
   const [amount, setAmount] = useState<string>('');
   const [words, setWords] = useState<string>('');
-  const [copiedType, setCopiedType] = useState<'normal' | 'caps' | null>(null);
+  const [chineseWords, setChineseWords] = useState<string>('');
+  const [copiedType, setCopiedType] = useState<'normal' | 'caps' | 'zh' | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleConvert = useCallback(() => {
@@ -31,6 +32,7 @@ export default function App() {
     setError(null);
     const result = numberToWords(num);
     setWords(result);
+    setChineseWords(numberToChineseWords(num));
 
     // Auto-copy Words in All Caps
     const caps = result.toUpperCase();
@@ -40,7 +42,7 @@ export default function App() {
     });
   }, [amount]);
 
-  const copyToClipboard = (text: string, type: 'normal' | 'caps') => {
+  const copyToClipboard = (text: string, type: 'normal' | 'caps' | 'zh') => {
     if (!text) return;
     navigator.clipboard.writeText(text).then(() => {
       setCopiedType(type);
@@ -51,6 +53,7 @@ export default function App() {
   const handleReset = () => {
     setAmount('');
     setWords('');
+    setChineseWords('');
     setError(null);
   };
 
@@ -189,6 +192,31 @@ export default function App() {
                       className="absolute bottom-4 right-6 text-xs font-bold text-emerald-400"
                     >
                       Copied!
+                    </motion.span>
+                  )}
+                </div>
+
+                {/* Chinese Financial Numerals */}
+                <div
+                  onClick={() => copyToClipboard(chineseWords, 'zh')}
+                  className="group relative bg-emerald-950 rounded-2xl p-6 border border-emerald-900 cursor-pointer hover:shadow-xl hover:shadow-emerald-950/30 transition-all active:scale-[0.99]"
+                >
+                  <div className="flex justify-between items-start mb-3">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-700">中文大寫</span>
+                    <div className="text-emerald-800 group-hover:text-emerald-400 transition-colors">
+                      {copiedType === 'zh' ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                    </div>
+                  </div>
+                  <p className="text-xl font-bold leading-relaxed text-emerald-100 pr-8 tracking-wider">
+                    {chineseWords}
+                  </p>
+                  {copiedType === 'zh' && (
+                    <motion.span
+                      initial={{ opacity: 0, x: 10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      className="absolute bottom-4 right-6 text-xs font-bold text-emerald-400"
+                    >
+                      已複製！
                     </motion.span>
                   )}
                 </div>
